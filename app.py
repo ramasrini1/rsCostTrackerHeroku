@@ -12,12 +12,14 @@ app = Flask(__name__)
 CURR_USER_KEY = "curr_user"
 ACCESS_TOKEN = "acc_token"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(('DATABASE_URL').replace("postgres://", "postgresql://", 1)), 'postgresql:///cost_tracker_db')
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cost_tracker_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tjtmkmvogovxfb:73300ecf13a78b52a2c8893f5ed07d26ed76fa46bef9e2ce12e6e719a956f31d@ec2-54-83-21-198.compute-1.amazonaws.com:5432/d9arss0jmaugbv'
 print("************************************")
 print(app.config['SQLALCHEMY_DATABASE_URI'])
 print("************************************")
 print("************************************")
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cost_tracker_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'hellosecret1')
