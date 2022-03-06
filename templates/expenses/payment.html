@@ -1,0 +1,81 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Payment/Expense Report</h1>
+    <br>
+    <h4>Event: <b>{{event_name}}</b> 
+    <h6>Total Cost: ${{total_cost}} (Cost per person: ${{target}})</h6><br>
+    <div class="row">
+      <div class="col-2">
+        <b>UserName</b>
+      </div>
+      <div class="col-2">
+       <b>Cost</b>
+      </div>
+      <div class="col-2">
+        <b>Cost Info</b>
+      </div>
+      <div class="col-2">
+        <b>Status</b>
+      </div>
+      <div class="col-2">
+        <b>Payment</b>
+      </div>
+      <div class="col-2">
+        <b>Admin</b>
+      </div>
+    </div>
+    {% for payment in payments %}
+    <div class="row mt-4">
+      <div class="col-2">
+        {{payment.user_name}}
+      </div>
+      <div class="col-2">
+        ${{payment.cost}}
+      </div>
+      <div class="col-2">
+        {{payment.cost_info}}
+      </div>
+      <div class="col-2">
+        {{payment.status}}
+      </div>
+      <div class="col-2">
+           {{payment.act}}:${{payment.amt}}
+      </div>
+      
+      {% if payment.status == 'Pending' %}
+        
+          {% if payment.act == 'Get' %}
+            <div class="col-2">
+                <form action= "/send_payment" method="POST">
+                  <input type="hidden" name="user_name" value="{{payment['user_name']}}">
+                  <input type="hidden" name="amt" value="{{payment['amt']}}">
+                  <input type="hidden" name="evt" value="{{event_id}}">
+                  <button class="btn btn-primary btn-sm" type="submit">Send Money</button>
+                </form>
+            </div>
+          {% endif %}
+
+          {% if payment.act == 'Send' %}
+            <div class="col-2">
+              <form action= "/request_payment" method="POST">
+                <input type="hidden" name="user_name" value="{{payment['user_name']}}">
+                <input type="hidden" name="amt" value="{{payment['amt']}}">
+                <input type="hidden" name="evt" value="{{event_id}}">
+                <button class="btn btn-primary btn-sm" type="submit">Request Money</button>
+              </form>
+                
+            </div>
+          {% endif %}
+
+      {% else %}
+        <div class="col-2">- - - - -</div>
+      {% endif %}
+      
+    </div>
+      
+    {% endfor %}
+  
+  
+  
+{% endblock %}

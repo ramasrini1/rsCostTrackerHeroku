@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Events</h1>
+    {% for event in events %}
+    <div class="row">
+      <div class="col-2 mt-2">
+        <a href="">{{ event.evt_name }}</a>
+      </div>
+      <div class="col-2 mt-2">
+        <a href="/event/expenses/{{event.id}}"><i>Show Expenses</a></i></a>
+      </div>
+    </div>
+  {% endfor %}
+
+  <div class="row">
+    <div class="col-2 mt-4">
+      <a class="btn btn-primary" href="/events/new">Add Event</a>
+    </div>
+    <div class="col-2 mt-4">
+      <a class="btn btn-primary" href="/expenses/add_expense">Add Expense</a>
+    </div>
+  </div>
+
+
+
+{% endblock %}
