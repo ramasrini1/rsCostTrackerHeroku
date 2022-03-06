@@ -5,6 +5,7 @@ from models import db, connect_db, Events, Expenses, User
 from forms import AddEventForm, AddExpenseForm, UserAddForm, LoginForm, AdminForm
 from expenses import EvtExpenses
 from venmo import Venmo
+import os
 
 app = Flask(__name__)
 
@@ -15,7 +16,12 @@ ACCESS_TOKEN = "acc_token"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cost_tracker_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['SECRET_KEY'] = "chickenzarecool21837"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'hellosecret1')
+print("*************************")
+print("*************************")
+print(app.config['SECRET_KEY'])
+print("*************************")
+print("*************************")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
