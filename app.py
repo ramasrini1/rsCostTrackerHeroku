@@ -12,16 +12,11 @@ app = Flask(__name__)
 CURR_USER_KEY = "curr_user"
 ACCESS_TOKEN = "acc_token"
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cost_tracker_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///cost_tracker_db')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cost_tracker_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'hellosecret1')
-print("*************************")
-print("*************************")
-print(app.config['SECRET_KEY'])
-print("*************************")
-print("*************************")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
