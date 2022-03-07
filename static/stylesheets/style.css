@@ -47,7 +47,17 @@ body.error-404 {
   justify-content: center;
 }
 
+.evt_lst {
+  border: 5px dashed #f7a239;
+}
 
 
+.lst_item {
+  align-items: center;
+  border: 5px dashed greenyellow;
+}
 
-
+.lst_item1 {
+  align-items: right;
+  border: 5px dashed yellow;
+}
