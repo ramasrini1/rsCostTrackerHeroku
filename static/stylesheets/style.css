@@ -61,3 +61,19 @@ body.error-404 {
   align-items: right;
   border: 5px dashed yellow;
 }
+
+span {
+  font-size: 0.75em;
+}
+
+.orange { 
+  color: orange; 
+} 
+
+.green { 
+  color: green; 
+} 
+
+.blue { 
+  color: blue; 
+} 

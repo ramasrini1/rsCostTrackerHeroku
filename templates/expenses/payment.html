@@ -1,52 +1,142 @@
 
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Payment/Expense Report</h1>
+    <h1 align="center">Payment/Expense Report</h1>
     <br>
-    <h4>Event: <b>{{event_name}}</b> 
-    <h6>Total Cost: ${{total_cost}} (Cost per person: ${{target}})</h6><br>
-    <div class="row">
-      <div class="col-2">
-        <b>UserName</b>
-      </div>
-      <div class="col-2">
-       <b>Cost</b>
-      </div>
-      <div class="col-2">
-        <b>Cost Info</b>
-      </div>
-      <div class="col-2">
-        <b>Status</b>
-      </div>
-      <div class="col-2">
-        <b>Payment</b>
-      </div>
-      <div class="col-2">
-        <b>Admin</b>
-      </div>
+    <h4 align="center">Event: <b>{{event_name}}</b> 
+    <h6 align="center">Total Cost: ${{total_cost}} (Cost per person: ${{target}})</h6><br>
+    
+    <div align="center" class="justify-content-md-center d-none d-md-block">
+      <hr>
+      <div class="row">
+        <div class="col-md-2">
+          <b>UserName</b>
+        </div>
+
+        <div class="col-md-2 ">
+          <b>Cost</b>
+        </div>
+
+        <div class="col-md-2 ">
+          <b>Cost Info</b>
+        </div>
+        
+        <div class="col-md-2">
+          <b>Status</b>
+        </div>
+
+        <div class="col-md-2 ">
+          <b>Payment</b>
+        </div>
+
+        <div class="col-md-2">
+          <b>Admin</b>
+        </div>
     </div>
+  
     {% for payment in payments %}
-    <div class="row mt-4">
-      <div class="col-2">
-        {{payment.user_name}}
-      </div>
-      <div class="col-2">
-        ${{payment.cost}}
-      </div>
-      <div class="col-2">
-        {{payment.cost_info}}
-      </div>
-      <div class="col-2">
-        {{payment.status}}
-      </div>
-      <div class="col-2">
-           {{payment.act}}:${{payment.amt}}
-      </div>
+      <div class="row mt-4">
+        
+        <div class="col-md-2">
+          {{payment.user_name}}
+        </div>
+        
+        <div class="col-md-2">
+          ${{payment.cost}}
+        </div>
+        
+        <div class="col-md-2">
+          {{payment.cost_info}}
+        </div>
+        
+        <div class="col-md-2">
+          {% if payment.status == 'Pending' %}
+            <b><div class="orange">{{payment.status}}</div></b>
+          {% endif %}
+          {% if payment.status == 'Paid' or payment.status == 'Request Sent' %}
+            <b><div class="green">{{payment.status}}</div></b>
+          {% endif %}
+          {% if payment.status == 'No Action' %}
+            <b><div class="blue">{{payment.status}}</div></b>
+          {% endif %}
+          
+        </div>
+        
+        <div class="col-md-2">
+            {{payment.act}}:${{payment.amt}}
+        </div>
       
+        {% if payment.status == 'Pending' %}
+          
+          {% if payment.act == 'Get' %}
+          <div class="col-md-2">
+              <form action= "/send_payment" method="POST">
+                <input type="hidden" name="user_name" value="{{payment['user_name']}}">
+                <input type="hidden" name="amt" value="{{payment['amt']}}">
+                <input type="hidden" name="evt" value="{{event_id}}">
+                <button class="btn btn-primary btn-sm" type="submit">Send Money</button>
+              </form>
+          </div>
+          {% endif %}
+         
+          {% if payment.act == 'Send' %}
+            <div class="col-md-2">
+              <form action= "/request_payment" method="POST">
+                <input type="hidden" name="user_name" value="{{payment['user_name']}}">
+                <input type="hidden" name="amt" value="{{payment['amt']}}">
+                <input type="hidden" name="evt" value="{{event_id}}">
+                <button class="btn btn-primary btn-sm" type="submit">Request Money</button>
+              </form>  
+            </div>
+          {% endif %}
+       
+
+        {% else  %} 
+            <div class="col-md-2">- - - - -</div>
+        {% endif %}  
+      </div>
+    {% endfor %}
+  </div>
+
+
+<!-- For small display only -->
+<div align="center" class="d-sm-block d-md-none d-lg-none">
+  <hr>
+  {% for payment in payments %}
+  <div class="row">
+    
+    <div class="col-sm-2">
+       <b>{{payment.user_name}}</b>
+    </div>
+    
+    <div class="col-sm-2">
+      Cost: ${{payment.cost}} 
+    </div>
+    
+    <div class="col-sm-2">
+      Info:<span>{{payment.cost_info}}</span>
+    </div>
+    
+    <div class="col-sm-2">
+      <b>{{payment.act}}:</b> ${{payment.amt}}
+    </div>
+
+    <div class="col-sm-2">
       {% if payment.status == 'Pending' %}
+        Status: <b><span class="orange">{{payment.status}}</span></b>
+      {% endif %}
+      {% if payment.status == 'Paid' or payment.status == 'Request Sent' %}
+        Status: <b><span class="green">{{payment.status}}</span></b>
+      {% endif %}
+      {% if payment.status == 'No Action' %}
+        Status: <b><span class="blue">{{payment.status}}</span></b>
+      {% endif %}
+    </div>
+    
+    {% if payment.status == 'Pending' %}
         
           {% if payment.act == 'Get' %}
-            <div class="col-2">
+            <div class="col-sm-2 mt-1">
                 <form action= "/send_payment" method="POST">
                   <input type="hidden" name="user_name" value="{{payment['user_name']}}">
                   <input type="hidden" name="amt" value="{{payment['amt']}}">
@@ -57,7 +147,7 @@
           {% endif %}
 
           {% if payment.act == 'Send' %}
-            <div class="col-2">
+            <div class="col-sm-2 mt-1">
               <form action= "/request_payment" method="POST">
                 <input type="hidden" name="user_name" value="{{payment['user_name']}}">
                 <input type="hidden" name="amt" value="{{payment['amt']}}">
@@ -68,14 +158,13 @@
             </div>
           {% endif %}
 
-      {% else %}
-        <div class="col-2">- - - - -</div>
-      {% endif %}
-      
-    </div>
-      
-    {% endfor %}
-  
-  
-  
+          {% else %}
+            <div class="col-sm-2">- - - - -</div>
+        {% endif %}  
+  </div>
+  <div class="w-100 mt-2"><hr></div>
+  {% endfor %}
+</div>  
+
+
 {% endblock %}
