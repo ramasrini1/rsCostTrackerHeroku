@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Events:</h1>
-    <div align="center" class="container">
+  <h1>Events:</h1>
+  <div  align="center" class="container">
     {% for event in events %}
     <div class="row justify-content-md-center">
-      <div class="col-sm-1  col-md-2 mt-2">  
+      <div class="col-md-2 mt-2">
+        <b>{{ event.evt_name }}</b>
       </div>
-      <div class="col-sm-4  col-md-2 mt-2">
-        <a href="">{{ event.evt_name }}</a>
+      <div class="col-md-4  mt-2">
+        <a  href="/event/expenses/{{event.id}}"><i>Show Expenses</a></i></a>  
       </div>
-      <div class="col-sm-4  col-md-4 mt-2">
-        <a href="/event/expenses/{{event.id}}"><i>Show Expenses</a></i></a>
-        
-      </div>
-      <div class="col-sm-1  col-md-2 mt-2">
-      </div>
+      <div class="w-100 mt-2"><hr></div>
+     
     </div>
     {% endfor %}
-    </div>
+  </div>
 
 
 
